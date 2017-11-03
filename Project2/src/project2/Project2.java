@@ -20,30 +20,33 @@ public class Project2 {
   public static Nim nim1;
   public static GameScreen game1;
   public Project2() {}
+  public static String type;
   
   public static void main(String[] args)
   {
-    
-    game1 = new GameScreen();
-    game1.show();
-    newGame();
+    Window1 w1 = new Window1();
+    w1.show();
+    //game1 = new GameScreen();
+    //game1.show();
+    //newGame(type);
     
     
 
 
-    for (int i = 0; i < myArray.length; i++) {
+    /*for (int i = 0; i < myArray.length; i++) {
       for (int j = 0; j < myArray[i].length; j++) {
         System.out.print(myArray[i][j]);
       }
       System.out.println();
-    }
+    }*/
   }
   
-  
-  public static void newGame() {
-    
+  //testing
+  public static void newGame(String type) {
     setRandArray();
-    nim1 = new Nim(myArray, "pvp");
+    nim1 = new Nim(myArray, type);
+    game1 = new GameScreen();
+    game1.show();
     game1.setButtonArray();
   }
   

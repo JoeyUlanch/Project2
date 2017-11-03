@@ -16,6 +16,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout.ParallelGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -112,6 +113,14 @@ public class GameScreen extends javax.swing.JFrame {
     int count = 0;
     int cnt2 = 0;
     Container buttonLayout = getContentPane();
+    if (Project2.nim1.getType() == "pvp") {
+    JLabel label = new JLabel();
+    label.setSize(100, 30);
+    label.setText(Project2.nim1.getTurn());
+    label.setLocation(400, 100);
+    buttonLayout.add(label);
+    }
+    
     //buttonLayout.setLayout(new GridLayout(7, 6));
     
     for (int i = 0; i < 36; i++) {

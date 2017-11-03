@@ -34,12 +34,25 @@ public class Nim
     return board;
   }
   
+  public String getTurn() {
+      if (turn == 0) {
+          return ("Player 1");
+      } else {
+          return ("Player 2");
+      }
+  }
+  
+  
   public void pvp(int x, int y) {
     int count = 0;
     for (int i = x; i > -1; i--) { // Removing from position picked going up
       board[i][y] = 0;
     } 
-    
+    if (turn == 0) {
+      turn += 1;
+      } else {
+      turn -= 1;
+      }
     
     Project2.game1.getContentPane().removeAll(); //Repainting the 2D Array
     Project2.game1.buttonList.clear();
@@ -62,12 +75,6 @@ public class Nim
           //Code if player 2 looses
       }
       
-
-      if (turn == 0) {
-      turn += 1;
-      } else {
-      turn -= 1;
-      }
   }
   
   public void cpu(int moveX, int moveY) {
