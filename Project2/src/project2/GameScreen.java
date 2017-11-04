@@ -102,23 +102,33 @@ public class GameScreen extends javax.swing.JFrame {
         });
     }
     
-     private void jButton2ActionPerformed(ActionEvent evt, int x, int y) {
-    if (Project2.nim1.getType() == "pvp") {
+  private void jButton2ActionPerformed(ActionEvent evt, int x, int y) {
+    if (Project2.nim1.getType().equals("pvp")) {
       Project2.nim1.pvp(x, y);
     }
   }
      
      
-   public void setButtonArray() {
+  public void setButtonArray() {
     int count = 0;
     int cnt2 = 0;
     Container buttonLayout = getContentPane();
-    if (Project2.nim1.getType() == "pvp") {
-    JLabel label = new JLabel();
-    label.setSize(100, 30);
-    label.setText(Project2.nim1.getTurn());
-    label.setLocation(400, 100);
-    buttonLayout.add(label);
+    
+    // Display the turn in a label above the board
+    if (Project2.nim1.getType().equals("pvp")) {
+        JLabel label = new JLabel();
+        label.setSize(100, 30);
+        
+        // If someone has won, let the players know.
+        if (Project2.nim1.hasWon()) {
+            label.setText(Project2.nim1.getTurn() + " Wins!");
+            // Consider adding an option for a new game here
+        } else {
+            // Inform players whose move it is
+            label.setText(Project2.nim1.getTurn());
+        }
+        label.setLocation(400, 100);
+        buttonLayout.add(label);
     }
     
     //buttonLayout.setLayout(new GridLayout(7, 6));
@@ -153,13 +163,6 @@ public class GameScreen extends javax.swing.JFrame {
       cnt2 = 0;
     }
   }  
-   
-   
-   
-   
-   
-    
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

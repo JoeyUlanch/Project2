@@ -5,17 +5,12 @@
  */
 package project2;
 
-import java.util.ArrayList;
-
-
-
-
-
-
+// Commented out unused imports - Dak
+//import java.util.ArrayList;
 
 public class Nim
 {
-  private String type;
+  private String type = "pvp";
   private int[][] board;
   private int turn = 0;
   
@@ -42,9 +37,7 @@ public class Nim
       }
   }
   
-  
-  public void pvp(int x, int y) {
-    int count = 0;
+  private void processMovement(int x, int y) {
     for (int i = x; i > -1; i--) { // Removing from position picked going up
       board[i][y] = 0;
     } 
@@ -59,7 +52,10 @@ public class Nim
     Project2.game1.setButtonArray();
     Project2.game1.revalidate();
     Project2.game1.repaint();
-
+  }
+  
+  public boolean hasWon() {
+    int count = 0;
     for (int i = 0; i < board.length; i++) {
       for (int j = 0; j < board[i].length; j++) {
         if (board[i][j] == 1) {
@@ -67,17 +63,34 @@ public class Nim
         }
       }
     }
-    if ((turn == 0) && (count == 0)) {
-        //Code if player 1 looses
-    } 
-    
-      if ((turn != 1) || (count != 0)) {
-          //Code if player 2 looses
-      }
-      
+    return count == 0;
+  }
+  
+  // now sure how this is a function unique to PVP.
+  // Separating out the move code from the PVP code
+  public void pvp(int x, int y) {
+    this.type = "pvp";
+    this.processMovement(x, y);
+
+    // check if someone has won
+    // Consider splitting this into a separate method
+    if (this.hasWon()) {
+        // if so, use a switch statement to make sure
+        switch(turn) {
+            case 0:
+                // code if player 1 wins
+                System.out.println("Algorithm reported player 1 won");
+                break;
+            case 1:
+                // code if player 2 wins
+                System.out.println("Algorithm reported player 2 won");
+                break;
+        }
+    }
   }
   
   public void cpu(int moveX, int moveY) {
+    this.type = "cpu";
   
   }
 }
