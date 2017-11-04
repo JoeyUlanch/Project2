@@ -30,11 +30,23 @@ public class Nim
   }
   
   public String getTurn() {
+      // According to convention, return-condition if
+      // should not have an else statement
+
+      if (this.type.equals("cpu")) {
+        if (turn == 0) {
+          return "Human";
+        }
+
+        return "CPU";
+      }
+      
+      // else excluded due to return condition
       if (turn == 0) {
           return ("Player 1");
-      } else {
-          return ("Player 2");
       }
+      
+      return ("Player 2");
   }
   
   private void processMovement(int x, int y) {
@@ -52,6 +64,11 @@ public class Nim
     Project2.game1.setButtonArray();
     Project2.game1.revalidate();
     Project2.game1.repaint();
+  }
+  
+  private void processCPU() {
+      // implement CPU movement here
+      return;
   }
   
   public boolean hasWon() {
@@ -91,6 +108,13 @@ public class Nim
   
   public void cpu(int moveX, int moveY) {
     this.type = "cpu";
-  
+    this.processMovement(moveX, moveY);
+    if (this.hasWon()) {
+        // CPU Won
+    }
+    this.processCPU();
+    if (this.hasWon()) {
+        // Human Won
+    }
   }
 }

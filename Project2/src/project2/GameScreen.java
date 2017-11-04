@@ -104,14 +104,18 @@ public class GameScreen extends javax.swing.JFrame {
     
   private void jButton2ActionPerformed(ActionEvent evt, int x, int y) {
     if (Project2.nim1.getType().equals("pvp")) {
+      // move as if it is a PVP game.
       Project2.nim1.pvp(x, y);
+    } else {
+      // move as if it is a computer game
+      Project2.nim1.cpu(x, y);
     }
   }
      
      
   public void setButtonArray() {
     int count = 0;
-    int cnt2 = 0;
+    int columnarCount = 0;
     Container buttonLayout = getContentPane();
     
     // Display the turn in a label above the board
@@ -133,18 +137,33 @@ public class GameScreen extends javax.swing.JFrame {
     
     //buttonLayout.setLayout(new GridLayout(7, 6));
     
+    /* It would seem that the following
+     * for() loops are responsible for
+     * generating all the buttons for the
+     * nim game.
+     */
+    
+    // Creates 36 new JButtons
     for (int i = 0; i < 36; i++) {
       JButton button = new JButton();
       button.hide();
       buttonList.add(button);
       buttonLayout.add(button);
     }
+    
+    // Nested loops set the location of each of the buttons, pixelwise
     for (int i = 0; i < 6; i++) {
       for (int j = 5; j > -1; j--) {
         if (Project2.nim1.getBoard()[j][i] == 1) {
           buttonList.get(count).enable();
           buttonList.get(count).show();
-          buttonList.get(count).setLocation(100 + i * 100, 400 - cnt2 * 50);
+          // button x = 100+100(column count)
+          /* button y = 400px - 50(number of elements in column)
+           * The above is written this way so that some elements
+           * of the nim board can be randomly excluded without 
+           * random holes showing up in the game board.
+           */
+          buttonList.get(count).setLocation(100 + i * 100, 400 - columnarCount * 50);
           buttonList.get(count).setSize(36, 36);
           buttonList.get(count).setName(Integer.toString(j) + Integer.toString(i));
           int x = j;
@@ -153,14 +172,14 @@ public class GameScreen extends javax.swing.JFrame {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt, x, y);
             }
-            });
+          });
           //repaint();
           count++;
-          cnt2++;
+          columnarCount++;
         }
       }
       
-      cnt2 = 0;
+      columnarCount = 0;
     }
   }  
     // Variables declaration - do not modify//GEN-BEGIN:variables
