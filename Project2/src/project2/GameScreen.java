@@ -39,6 +39,7 @@ public class GameScreen extends javax.swing.JFrame {
     public GameScreen() {
         initComponents();
         buttonList = new ArrayList();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -51,6 +52,7 @@ public class GameScreen extends javax.swing.JFrame {
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -111,7 +113,51 @@ public class GameScreen extends javax.swing.JFrame {
       Project2.nim1.cpu(x, y);
     }
   }
+  
+  
+  private void jButton3ActionPerformed(ActionEvent evt) { 
+    //New Game
+    this.hide();
+    Project2.w1.show();
+  }
+  
+  private void jButton4ActionPerformed(ActionEvent evt) {
+      //Exits program
+      System.exit(0);
+  }
      
+  
+  
+  
+  private void endGame() {
+      Container endContainer = getContentPane();
+      
+      //Start of New Game Button
+      JButton newButton = new JButton();
+      endContainer.add(newButton);
+      newButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+          });
+      newButton.setSize(100, 40);
+      newButton.setLocation(300, 200);
+      newButton.setText("New Game");
+      //End of New Game Button
+      
+      //Start of Exit Button
+      JButton endButton = new JButton();
+      endContainer.add(endButton);
+      endButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+          });
+      endButton.setSize(100, 40);
+      endButton.setLocation(500, 200);
+      endButton.setText("Exit");
+      //End Exit Button
+  }
      
   public void setButtonArray() {
     int count = 0;
@@ -126,12 +172,13 @@ public class GameScreen extends javax.swing.JFrame {
         // If someone has won, let the players know.
         if (Project2.nim1.hasWon()) {
             label.setText(Project2.nim1.getTurn() + " Wins!");
+            endGame();
             // Consider adding an option for a new game here
         } else {
             // Inform players whose move it is
             label.setText(Project2.nim1.getTurn());
         }
-        label.setLocation(400, 100);
+        label.setLocation(400, 50);
         buttonLayout.add(label);
     }
     
@@ -157,13 +204,13 @@ public class GameScreen extends javax.swing.JFrame {
         if (Project2.nim1.getBoard()[j][i] == 1) {
           buttonList.get(count).enable();
           buttonList.get(count).show();
-          // button x = 100+100(column count)
+          // button x = 150+100(column count)
           /* button y = 400px - 50(number of elements in column)
            * The above is written this way so that some elements
            * of the nim board can be randomly excluded without 
            * random holes showing up in the game board.
            */
-          buttonList.get(count).setLocation(100 + i * 100, 400 - columnarCount * 50);
+          buttonList.get(count).setLocation(150 + i * 100, 400 - columnarCount * 50);
           buttonList.get(count).setSize(36, 36);
           buttonList.get(count).setName(Integer.toString(j) + Integer.toString(i));
           int x = j;

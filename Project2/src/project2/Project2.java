@@ -21,10 +21,11 @@ public class Project2 {
   public static GameScreen game1;
   public Project2() {}
   public static String type;
+  public static Window1 w1;
   
   public static void main(String[] args)
   {
-    Window1 w1 = new Window1();
+    w1 = new Window1();
     w1.show();
     //game1 = new GameScreen();
     //game1.show();
