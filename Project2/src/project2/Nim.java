@@ -10,7 +10,7 @@ package project2;
 
 public class Nim
 {
-  private String type = "pvp";
+  private String type;
   private int[][] board;
   private int turn = 0;
   
@@ -50,7 +50,7 @@ public class Nim
   }
   
   private void processMovement(int x, int y) {
-    for (int i = x; i > -1; i--) { // Removing from position picked going up
+    for (int i = x; i > -1; i--) { // Removing from position picked, going up.
       board[i][y] = 0;
     } 
     if (turn == 0) {
@@ -59,7 +59,7 @@ public class Nim
       turn -= 1;
       }
     
-    Project2.game1.getContentPane().removeAll(); //Repainting the 2D Array
+    Project2.game1.getContentPane().removeAll(); //Redrawing the buttons.
     Project2.game1.buttonList.clear();
     Project2.game1.setButtonArray();
     Project2.game1.revalidate();

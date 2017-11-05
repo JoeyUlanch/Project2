@@ -16,6 +16,7 @@ public class Window1 extends javax.swing.JFrame {
      */
     public Window1() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
