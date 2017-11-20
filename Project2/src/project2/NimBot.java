@@ -4,70 +4,179 @@
  * and open the template in the editor.
  */
 package project2;
-//import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
  *
  * @author Dakota
+ * This is the file that contains the "ai" for the
+ * nim CPU. It is a static class that can be fed
+ * 2-D nim boards into the method cpuMove
+ * 
+ * usage: NimBot::cpuMove(nimBoard)
+ *  makes a move for the computer
+ *  then, it is up to the main program to
+ *  pass turn and determine winners, as well as
+ *  reassign the new board to nimBoard
  */
 public class NimBot {
-    public static int[][] cpuMove(int [][] nimBoard) {
-        // number of columns with >0 matchsticks
-        int flagged = nimBoard.length - emptyRows(nimBoard);
-        
-        // if there is one lonely (contains 1) row
-        if (flagged - lonelyRows(nimBoard) == 1) {
-            // if the number of lonely rows is odd, ta
-            if (flagged % 2 == 1) {
-                // take all but one item from the column
-            } else {
-                // take all of the greatest column
+    
+    public static void printNim(int [][] nimBoard) {
+        for (int [] nimRow : nimBoard) {
+            for (int nimChar : nimRow) {
+                System.out.print(nimChar);
             }
-        } else if ((flagged - getParity(nimBoard)) % 2 == 0) {
-            // take from the greatest column to equal the value of the second
-            // greatest column
-        } else {
-            if (flagged == 1) {
-                // subtract all but one from the column
-            } else {
-                // subtract all from the column
-            }
+            System.out.println();
         }
-        
-        return nimBoard;
     }
     
-    // returns an int for the number of pairs that each item has
-    // change this so that it doesn't require a specific row
-    public static int getParity(int [][] nimBoard) {
-        int parityCount = 0;
+    public static int[][] rotateArr(int [][] nimBoard) {
+        int [][] newBoard = new int[nimBoard[0].length][nimBoard.length];
         
-        for (int [] row : nimBoard) {
-            int rowTotal = rowSum(row);
-
-            for (int i = 1; i < nimBoard.length; i++) {
-                int thisParity = 0;
-                
-                for (int[] currentRow : nimBoard) {
-                    if (rowSum(currentRow) == rowTotal) {
-                        thisParity++;
-                    }
-                }
-                
-                // strip down odd parity counts
-                thisParity = thisParity / 2;
-                thisParity = thisParity * 2;
-                
-                parityCount += thisParity;
+        for (int i = 0; i < nimBoard[0].length; i++) {
+            for (int j = 0; j < nimBoard.length; j++) {
+                newBoard[i][j] = nimBoard[j][i];
             }
         }
         
-        return parityCount;
+        return newBoard;
+    }
+    
+    public static int[][] cpuMove(int [][] nimBoard) {
+                
+        System.out.println("Before");
+        int [][] origBoard = nimBoard;
+        nimBoard = rotateArr(nimBoard);
+        printNim(nimBoard);
+        
+        
+        
+        int [] simpleNim = new int[nimBoard[0].length];
+        int [] binaryBoard;
+        
+        for (int i = 0; i < nimBoard.length; i++) {
+            simpleNim[i] = rowSum(nimBoard[i]);
+        }
+        
+        binaryBoard = new int[3];
+        
+        for (int i = 0; i < nimBoard.length; i++) {
+            int [] binaryRow = convertToBinaryArr(simpleNim[i]);
+            binaryBoard[0] += binaryRow[0];
+            binaryBoard[1] += binaryRow[1];
+            binaryBoard[2] += binaryRow[2];
+        }
+        
+        // if there is only one row with more than one,
+        // take all but one from that row
+        if (binaryBoard[0] + binaryBoard[1] == 1) {
+            for (int i = 0; i < simpleNim.length; i++) {
+                if (simpleNim[i] > 1) {
+                    System.out.println("take processed for condition: one good move");
+                    origBoard = takeFrom(simpleNim[maxRow(simpleNim)] - 1, origBoard, i);
+                }
+            }
+            System.out.println("Take should be processed");
+        } else {
+            if ((binaryBoard[0] & 1) == 1) {
+                System.out.println("take processed: parity of 4");
+                origBoard = take(simpleNim, 4, origBoard);
+            } else if ((binaryBoard[1] & 1) == 1) {
+                System.out.println("take processed: parity of 2");
+                origBoard = take(simpleNim, 2, origBoard);
+            } else {
+                System.out.println("take processed: parity of 1 or no parity");
+                origBoard = take(simpleNim, 1, origBoard);
+            }
+        }
+        
+        for (int i = 0; i < simpleNim.length; i++) {
+            nimBoard[i] = createRow(simpleNim[i], nimBoard[i].length);
+        }
+        System.out.println("After:");
+        printNim(nimBoard);
+        nimBoard = rotateArr(nimBoard);
+        printNim(nimBoard);
+        
+        return origBoard;
+    }
+    
+    public static int[] createRow(int arg, int length) {
+        int[] retval = new int[length];
+        for (int i = 0; i < arg; i++) {
+            retval[i] = 1;
+        }
+        
+        return retval;
+    }
+    
+    public static int [][] take(int [] simpleBoard, int howMany, int[][] originalBoard) {
+        boolean set = false;
+        int takeFrom = 0;
+        System.out.println((int)(Math.random()*100) + "Take function activated (" + howMany + ")" );
+        for (int i = 0; i < simpleBoard.length; i++) {
+            System.out.println("Row has " + simpleBoard[i] + " units");
+            if(simpleBoard[i] >= howMany && !set) {
+                System.out.println("Take set");
+                takeFrom = i;
+                set = true;
+            }
+        }
+        
+        int iterator = 0;
+        while (howMany > 0) {
+            if (originalBoard[iterator][takeFrom] == 1) {
+                System.out.println("Took from col" + takeFrom);
+                originalBoard[iterator][takeFrom] = 0;
+                howMany--;
+            }
+            iterator++;
+        }
+        //if (set == false)
+        //    originalBoard = take(simpleBoard, howMany-1, originalBoard);
+        return originalBoard;
+    }
+    
+    public static int [][] takeFrom(int howMany, int[][] originalBoard, int from) {
+        int iterator = 0;
+        while (howMany > 0) {
+            if (originalBoard[iterator][from] == 1) {
+                originalBoard[iterator][from] = 0;
+                howMany--;
+            }
+            iterator++;
+        }
+        return originalBoard;
+    }
+    
+    public static int[] convertToBinaryArr(int row) {
+        int [] ret = new int[3];
+        ret[0] = row / 4;
+        row -= 4 * (row / 4);
+        ret[1] = row / 2;
+        row -= 2 * (row / 2);
+        ret[2] = row;
+        
+        return ret;
+    }
+    
+// INSERT LOST HERE    
+    private static int maxRow(int [] nimRows) {
+        int maxIndex = 0;
+        int max = 0;
+        for (int i = 0; i < nimRows.length; i++) {
+            if (max < nimRows[i]) {
+                max = nimRows[i];
+                maxIndex = i;
+            }
+        }
+        
+        return maxIndex;
     }
     
     // calculates the sum of all values in a row
-    public static int rowSum(int [] row) {
+    private static int rowSum(int [] row) {
         int sum = 0;
 
         for (int i = 0; i < row.length; i++) {
@@ -77,85 +186,5 @@ public class NimBot {
         return sum;
     }
     
-    private static int emptyRows(int[][] nimBoard) {
-        int count = 0;
-        
-        for (int[] nimRow : nimBoard) {
-            if (rowSum(nimRow) == 0) {
-                count++;
-            }
-        }
-        
-        return count;
-    }
-    
-    private static int lonelyRows(int[][] nimBoard) {
-        int count = 0;
-        
-        for (int[] nimRow : nimBoard) {
-            if (rowSum(nimRow) == 1) {
-                count++;
-            }
-        }
-        
-        return count;
-    }
-    
-    private static int[][] sortNim(int[][] nimBoard) {
-        // using a quicksort algorithm to sort the board
-        int [] rowLengths = new int[nimBoard.length];
-        
-        // iterate through the board and assign lengths to each row
-        for (int i = 0; i < nimBoard.length; i++) {
-            rowLengths[i] = nimBoard[i].length;
-        }
-        
-        boolean swapped = false;
-        int steps = rowLengths.length - 1;
-
-        for (int i = 0; i < steps; i++) {
-            int j = i;
-            while (rowLengths[j] < rowLengths[j + 1]) {
-                // perform a swap
-                int temp = rowLengths[j];
-                rowLengths[j] = rowLengths[j + 1];
-                rowLengths[j + 1] = temp;
-
-                int [] tempArr = nimBoard[j];
-                nimBoard[j] = nimBoard[j + 1];
-                nimBoard[j + 1] = tempArr;
-                swapped = true;
-                j--;
-            }
-        }
-        
-        return nimBoard;
-    }
-    
-    // calculates how many identical pairs there are
-    private static int parityColumns(int[][] nimBoard) {
-        int parity = 0;
-        
-        nimBoard = sortNim(nimBoard);
-        
-        for (int i = 0; i < nimBoard.length; i++) {
-            if (Arrays.equals(nimBoard[i], nimBoard[i + 1])) {
-                parity++;
-                i++;
-            }
-        }
-        
-        return parity;
-    }
-    
-    public static int totalEmptyRows(int[][] nimBoard) {
-        int empty = nimBoard.length;
-        for (int[] row : nimBoard) {
-            if (rowSum(row) > 0) {
-                empty--;
-            }
-        }
-        
-        return empty;
-    }
+ 
 }

@@ -67,8 +67,18 @@ public class Nim
   }
   
   private void processCPU() {
-      // implement CPU movement here
-      return;
+    board = NimBot.cpuMove(board);
+    if (turn == 0) {
+        turn += 1;
+    } else {
+        turn -= 1;
+    }
+    
+    Project2.game1.getContentPane().removeAll(); //Redrawing the buttons.
+    Project2.game1.buttonList.clear();
+    Project2.game1.setButtonArray();
+    Project2.game1.revalidate();
+    Project2.game1.repaint();
   }
   
   public boolean hasWon() {
@@ -109,12 +119,11 @@ public class Nim
   public void cpu(int moveX, int moveY) {
     this.type = "cpu";
     this.processMovement(moveX, moveY);
-    if (this.hasWon()) {
-        // CPU Won
-    }
+    if (this.hasWon())
+        System.out.println("Computer won");
     this.processCPU();
     if (this.hasWon()) {
-        // Human Won
+        System.out.println("Human won");
     }
   }
 }
