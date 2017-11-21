@@ -181,6 +181,21 @@ public class GameScreen extends javax.swing.JFrame {
         label.setHorizontalAlignment(JLabel.CENTER);
         label.setLocation((this.getWidth() / 2) - 50, 50);
         buttonLayout.add(label);
+    } else {
+        JLabel label = new JLabel();
+        label.setSize(100, 30);
+        
+        // If someone has won, let the players know.
+        if (Project2.nim1.hasWon()) {
+            label.setText(Project2.nim1.getTurn() + " Wins!");
+            endGame();
+            // Consider adding an option for a new game here
+        } else {
+            // Inform players whose move it is
+            label.setText(Project2.nim1.getTurn());
+        }
+        label.setLocation(400, 50);
+        buttonLayout.add(label);
     }
     
     //buttonLayout.setLayout(new GridLayout(7, 6));
