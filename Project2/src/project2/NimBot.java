@@ -70,17 +70,40 @@ public class NimBot {
             binaryBoard[0] += binaryRow[0];
             binaryBoard[1] += binaryRow[1];
             binaryBoard[2] += binaryRow[2];
+            
+            // turns the row from 6 to 0110
         }
+        
+        /*
+        0110
+        0101
+        0011
+        0101
+        0101
+        0011
+        
+        435
+        */
         
         // if there is only one row with more than one,
         // take all but one from that row
         if (binaryBoard[0] + binaryBoard[1] == 1) {
-            for (int i = 0; i < simpleNim.length; i++) {
-                if (simpleNim[i] > 1) {
-                    //System.out.println("take processed for condition: one good move");
-                    origBoard = takeFrom(simpleNim[maxRow(simpleNim)] - 1, origBoard, i);
+            if (binaryBoard[2] % 2 == 0) {
+                for (int i = 0; i < simpleNim.length; i++) {
+                    if (simpleNim[i] > 1) {
+                        //System.out.println("take processed for condition: one good move");
+                        origBoard = takeFrom(simpleNim[maxRow(simpleNim)] - 1, origBoard, i);
+                    }
+                }
+            } else {
+                for (int i = 0; i < simpleNim.length; i++) {
+                    if (simpleNim[i] > 1) {
+                        //System.out.println("take processed for condition: one good move");
+                        origBoard = takeFrom(simpleNim[maxRow(simpleNim)], origBoard, i);
+                    }
                 }
             }
+            
             //System.out.println("Take should be processed");
         } else {
             if ((binaryBoard[0] & 1) == 1) {
