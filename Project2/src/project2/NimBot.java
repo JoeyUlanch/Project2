@@ -63,15 +63,16 @@ public class NimBot {
             return new int[nimBoard[0].length][nimBoard.length];
         }
         
-        binaryBoard = new int[3];
+        binaryBoard = new int[4];
         
         for (int i = 0; i < nimBoard.length; i++) {
             int [] binaryRow = convertToBinaryArr(simpleNim[i]);
             binaryBoard[0] += binaryRow[0];
             binaryBoard[1] += binaryRow[1];
             binaryBoard[2] += binaryRow[2];
+            binaryBoard[3] += binaryRow[3];
             
-            // turns the row from 6 to 0110
+            // turns the row from 10 to 1010
         }
         
         /*
@@ -87,8 +88,8 @@ public class NimBot {
         
         // if there is only one row with more than one,
         // take all but one from that row
-        if (binaryBoard[0] + binaryBoard[1] == 1) {
-            if (binaryBoard[2] % 2 == 0) {
+        if (binaryBoard[0] + binaryBoard[1] + binaryBoard[2] == 1) {
+            if (binaryBoard[3] % 2 == 0) {
                 for (int i = 0; i < simpleNim.length; i++) {
                     if (simpleNim[i] > 1) {
                         //System.out.println("take processed for condition: one good move");
@@ -107,9 +108,11 @@ public class NimBot {
             //System.out.println("Take should be processed");
         } else {
             if ((binaryBoard[0] & 1) == 1) {
+                origBoard = take(simpleNim, 8, origBoard);
+            } else if ((binaryBoard[1] & 1) == 1) {
                 //System.out.println("take processed: parity of 4");
                 origBoard = take(simpleNim, 4, origBoard);
-            } else if ((binaryBoard[1] & 1) == 1) {
+            } else if ((binaryBoard[2] & 1) == 1) {
                 //System.out.println("take processed: parity of 2");
                 origBoard = take(simpleNim, 2, origBoard);
             } else {
@@ -178,12 +181,16 @@ public class NimBot {
     }
     
     public static int[] convertToBinaryArr(int row) {
-        int [] ret = new int[3];
-        ret[0] = row / 4;
+        int [] ret = new int[4];
+        
+        // Integer arithmetic is used to truncate decimals
+        ret[0] = row / 8;
+        row -= 8 * (row / 8);
+        ret[1] = row / 4;
         row -= 4 * (row / 4);
-        ret[1] = row / 2;
+        ret[2] = row / 2;
         row -= 2 * (row / 2);
-        ret[2] = row;
+        ret[3] = row;
         
         return ret;
     }
