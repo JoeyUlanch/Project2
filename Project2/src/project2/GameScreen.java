@@ -17,6 +17,7 @@ import javax.swing.GroupLayout.ParallelGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -58,11 +59,11 @@ public class GameScreen extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 842, Short.MAX_VALUE)
+            .addGap(0, 1178, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 524, Short.MAX_VALUE)
+            .addGap(0, 666, Short.MAX_VALUE)
         );
 
         pack();
@@ -141,7 +142,7 @@ public class GameScreen extends javax.swing.JFrame {
             }
           });
       newButton.setSize(100, 40);
-      newButton.setLocation(300, 200);
+      newButton.setLocation((this.getWidth() / 2) - 150, 200);
       newButton.setText("New Game");
       //End of New Game Button
       
@@ -154,7 +155,7 @@ public class GameScreen extends javax.swing.JFrame {
             }
           });
       endButton.setSize(100, 40);
-      endButton.setLocation(500, 200);
+      endButton.setLocation((this.getWidth() / 2) + 50, 200);
       endButton.setText("Exit");
       //End Exit Button
   }
@@ -168,7 +169,6 @@ public class GameScreen extends javax.swing.JFrame {
     if (Project2.nim1.getType().equals("pvp")) {
         JLabel label = new JLabel();
         label.setSize(100, 30);
-        
         // If someone has won, let the players know.
         if (Project2.nim1.hasWon()) {
             label.setText(Project2.nim1.getTurn() + " Wins!");
@@ -178,7 +178,8 @@ public class GameScreen extends javax.swing.JFrame {
             // Inform players whose move it is
             label.setText(Project2.nim1.getTurn());
         }
-        label.setLocation(400, 50);
+        label.setHorizontalAlignment(JLabel.CENTER);
+        label.setLocation((this.getWidth() / 2) - 50, 50);
         buttonLayout.add(label);
     } else {
         JLabel label = new JLabel();
@@ -206,7 +207,7 @@ public class GameScreen extends javax.swing.JFrame {
      */
     
     // Creates 36 new JButtons
-    for (int i = 0; i < 36; i++) {
+    for (int i = 0; i < 100; i++) {
       JButton button = new JButton();
       button.hide();
       buttonList.add(button);
@@ -214,8 +215,9 @@ public class GameScreen extends javax.swing.JFrame {
     }
     
     // Nested loops set the location of each of the buttons, pixelwise
-    for (int i = 0; i < 6; i++) {
-      for (int j = 5; j > -1; j--) {
+    int space = (this.getWidth() / (Project2.columns + 1));
+    for (int i = 0; i < 10; i++) {
+      for (int j = 9; j > -1; j--) {
         if (Project2.nim1.getBoard()[j][i] == 1) {
           buttonList.get(count).enable();
           buttonList.get(count).show();
@@ -225,7 +227,14 @@ public class GameScreen extends javax.swing.JFrame {
            * of the nim board can be randomly excluded without 
            * random holes showing up in the game board.
            */
-          buttonList.get(count).setLocation(150 + i * 100, 400 - columnarCount * 50);
+          buttonList.get(count).setLocation((space + (i * space)) - 18, 600 - columnarCount * 50);
+          /* Above code is written to space out the buttons on
+             the x-axis using the width of the JFrame divided
+             by the number of columns/stacks in the Nim game plus
+             1 (To prevent having 1 stack from being on the very end).
+             The subtraction of 18 pixels is so the buttons align correctly.
+             Since buttons aren't drawn centered I divided button width by 2.
+          */
           buttonList.get(count).setSize(36, 36);
           buttonList.get(count).setName(Integer.toString(j) + Integer.toString(i));
           int x = j;
