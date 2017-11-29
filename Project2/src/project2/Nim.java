@@ -82,15 +82,15 @@ public class Nim
   }
   
   public boolean hasWon() {
-    int count = 0;
+    boolean count = true;
     for (int i = 0; i < board.length; i++) {
       for (int j = 0; j < board[i].length; j++) {
         if (board[i][j] == 1) {
-          count++;
+          count = false;
         }
       }
     }
-    return count == 0;
+    return count;
   }
   
   // now sure how this is a function unique to PVP.
@@ -98,32 +98,12 @@ public class Nim
   public void pvp(int x, int y) {
     this.type = "pvp";
     this.processMovement(x, y);
-
-    // check if someone has won
-    // Consider splitting this into a separate method
-    if (this.hasWon()) {
-        // if so, use a switch statement to make sure
-        switch(turn) {
-            case 0:
-                // code if player 1 wins
-                System.out.println("Algorithm reported player 1 won");
-                break;
-            case 1:
-                // code if player 2 wins
-                System.out.println("Algorithm reported player 2 won");
-                break;
-        }
-    }
   }
   
   public void cpu(int moveX, int moveY) {
     this.type = "cpu";
     this.processMovement(moveX, moveY);
-    if (this.hasWon())
-        System.out.println("Computer won");
-    this.processCPU();
-    if (this.hasWon()) {
-        System.out.println("Human won");
-    }
+    if (!this.hasWon())
+        this.processCPU();
   }
 }

@@ -45,10 +45,10 @@ public class NimBot {
     
     public static int[][] cpuMove(int [][] nimBoard) {
                 
-        System.out.println("Before");
+        //System.out.println("Before");
         int [][] origBoard = nimBoard;
         nimBoard = rotateArr(nimBoard);
-        printNim(nimBoard);
+        //printNim(nimBoard);
         
         
         
@@ -57,6 +57,10 @@ public class NimBot {
         
         for (int i = 0; i < nimBoard.length; i++) {
             simpleNim[i] = rowSum(nimBoard[i]);
+        }
+        
+        if (rowSum(simpleNim) == 0) {
+            return new int[nimBoard[0].length][nimBoard.length];
         }
         
         binaryBoard = new int[3];
@@ -73,20 +77,20 @@ public class NimBot {
         if (binaryBoard[0] + binaryBoard[1] == 1) {
             for (int i = 0; i < simpleNim.length; i++) {
                 if (simpleNim[i] > 1) {
-                    System.out.println("take processed for condition: one good move");
+                    //System.out.println("take processed for condition: one good move");
                     origBoard = takeFrom(simpleNim[maxRow(simpleNim)] - 1, origBoard, i);
                 }
             }
-            System.out.println("Take should be processed");
+            //System.out.println("Take should be processed");
         } else {
             if ((binaryBoard[0] & 1) == 1) {
-                System.out.println("take processed: parity of 4");
+                //System.out.println("take processed: parity of 4");
                 origBoard = take(simpleNim, 4, origBoard);
             } else if ((binaryBoard[1] & 1) == 1) {
-                System.out.println("take processed: parity of 2");
+                //System.out.println("take processed: parity of 2");
                 origBoard = take(simpleNim, 2, origBoard);
             } else {
-                System.out.println("take processed: parity of 1 or no parity");
+                //System.out.println("take processed: parity of 1 or no parity");
                 origBoard = take(simpleNim, 1, origBoard);
             }
         }
@@ -94,10 +98,10 @@ public class NimBot {
         for (int i = 0; i < simpleNim.length; i++) {
             nimBoard[i] = createRow(simpleNim[i], nimBoard[i].length);
         }
-        System.out.println("After:");
-        printNim(nimBoard);
+        //System.out.println("After:");
+        //printNim(nimBoard);
         nimBoard = rotateArr(nimBoard);
-        printNim(nimBoard);
+        //printNim(nimBoard);
         
         return origBoard;
     }
@@ -114,11 +118,11 @@ public class NimBot {
     public static int [][] take(int [] simpleBoard, int howMany, int[][] originalBoard) {
         boolean set = false;
         int takeFrom = 0;
-        System.out.println((int)(Math.random()*100) + "Take function activated (" + howMany + ")" );
+        //System.out.println((int)(Math.random()*100) + "Take function activated (" + howMany + ")" );
         for (int i = 0; i < simpleBoard.length; i++) {
-            System.out.println("Row has " + simpleBoard[i] + " units");
+            //System.out.println("Row has " + simpleBoard[i] + " units");
             if(simpleBoard[i] >= howMany && !set) {
-                System.out.println("Take set");
+                //System.out.println("Take set");
                 takeFrom = i;
                 set = true;
             }
@@ -127,7 +131,7 @@ public class NimBot {
         int iterator = 0;
         while (howMany > 0) {
             if (originalBoard[iterator][takeFrom] == 1) {
-                System.out.println("Took from col" + takeFrom);
+                //System.out.println("Took from col" + takeFrom);
                 originalBoard[iterator][takeFrom] = 0;
                 howMany--;
             }
