@@ -51,7 +51,6 @@ public class Project2 {
     setRandArray();
     nim1 = new Nim(myArray, type);
     
-    
     game1 = new GameScreen();
     game1.show();
     game1.setButtonArray();

@@ -92,7 +92,7 @@ public class Nim
             board = NimBot.cpuMove(board);
             gameStateLocked = false;
       
-      
+
     if (turn == 0) {
         turn += 1;
     } else {
