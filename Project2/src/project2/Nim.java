@@ -17,6 +17,11 @@ public class Nim
   private int[][] board;
   private int turn = 0;
   private boolean gameStateLocked = false;
+  private boolean gameHasStarted = false;
+  
+  public void setGameStateLocked(boolean state) {
+      gameStateLocked = state;
+  }
   
   public Nim(int[][] board, String type) {
     this.board = board;
@@ -24,6 +29,13 @@ public class Nim
   }
   
 
+  public boolean gameHasStarted() {
+      return gameHasStarted;
+  }
+  
+  public void setGameStarted() {
+      gameHasStarted = true;
+  }
   public String getType()
   {
     return type;
@@ -75,7 +87,12 @@ public class Nim
   }
   
   protected void processCPU() {
-    board = NimBot.cpuMove(board);
+
+    
+            board = NimBot.cpuMove(board);
+            gameStateLocked = false;
+      
+
     if (turn == 0) {
         turn += 1;
     } else {
@@ -109,35 +126,17 @@ public class Nim
   }
   
   public void cpu(int moveX, int moveY) {
-    Timer timer = new Timer();
     this.type = "cpu";
-    int firstMove = (int)(Math.random()*2);
-    if (firstMove == 1) {
-        this.processMovement(moveX, moveY);
+    this.processMovement(moveX, moveY);
+    Timer timer = new Timer();
 
-        if (!this.hasWon()) {
-            this.gameStateLocked = true;
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    processCPU();
-                    gameStateLocked = false;
-                }
-            }, 1000);
-        }
-    } else {
-        this.gameStateLocked = true;
+    if (!this.hasWon()) {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                processCPU();
-                gameStateLocked = false;
+                Project2.nim1.processCPU();
             }
-        }, 1000);
-        
-        if (!this.hasWon())
-            this.processMovement(moveX, moveY);
-    }
+        }, 1000);    }
   }
   
   public boolean isLocked () {
