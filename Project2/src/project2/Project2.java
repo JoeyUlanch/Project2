@@ -53,6 +53,9 @@ public class Project2 {
     game1 = new GameScreen();
     game1.show();
     game1.setButtonArray();
+    /*if ((int)(Math.random()*2) == 1) {
+        nim1.cpu();
+    }*/
   }
   
 

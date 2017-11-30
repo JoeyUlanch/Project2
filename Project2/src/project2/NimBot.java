@@ -4,9 +4,7 @@
  * and open the template in the editor.
  */
 package project2;
-import java.util.ArrayList;
-import java.util.Arrays;
-
+import java.util.*;
 /**
  *
  * @author Dakota
@@ -83,8 +81,10 @@ public class NimBot {
         0101
         0011
         
-        435
+        0435
         */
+        
+        
         
         // if there is only one row with more than one,
         // take all but one from that row
