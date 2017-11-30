@@ -9,6 +9,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.GroupLayout;
@@ -194,6 +196,22 @@ public class GameScreen extends javax.swing.JFrame {
             // Consider adding an option for a new game here
         } else {
             // Inform players whose move it is
+            if (Math.random() > .5 && !Project2.nim1.gameHasStarted()) {
+                
+                Project2.nim1.setTurn(1);//
+                label.setText(Project2.nim1.getTurn());
+                System.out.println("cpu moved first");
+                Project2.nim1.setGameStateLocked(true);
+                Timer timer = new Timer();
+
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        Project2.nim1.processCPU();
+                    }
+                }, 1000);
+            }
+            Project2.nim1.setGameStarted();
             label.setText(Project2.nim1.getTurn());
         }
         label.setLocation(400, 50);
