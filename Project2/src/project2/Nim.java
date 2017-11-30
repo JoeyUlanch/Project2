@@ -70,6 +70,7 @@ public class Nim
   }
   
   private void processMovement(int x, int y) {
+    
     for (int i = x; i > -1; i--) { // Removing from position picked, going up.
       board[i][y] = 0;
     } 
@@ -129,7 +130,7 @@ public class Nim
     this.type = "cpu";
     this.processMovement(moveX, moveY);
     Timer timer = new Timer();
-
+    setGameStateLocked(true);
     if (!this.hasWon()) {
         timer.schedule(new TimerTask() {
             @Override

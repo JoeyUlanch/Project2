@@ -8,11 +8,7 @@ import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.*;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout.ParallelGroup;
@@ -114,6 +110,7 @@ public class GameScreen extends javax.swing.JFrame {
           Project2.nim1.pvp(x, y);
         } else {
           // move as if it is a computer game
+          
           Project2.nim1.cpu(x, y);
         }
     }
@@ -200,7 +197,6 @@ public class GameScreen extends javax.swing.JFrame {
                 
                 Project2.nim1.setTurn(1);//
                 label.setText(Project2.nim1.getTurn());
-                System.out.println("cpu moved first");
                 Project2.nim1.setGameStateLocked(true);
                 Timer timer = new Timer();
 
@@ -214,7 +210,8 @@ public class GameScreen extends javax.swing.JFrame {
             Project2.nim1.setGameStarted();
             label.setText(Project2.nim1.getTurn());
         }
-        label.setLocation(400, 50);
+        label.setHorizontalAlignment(JLabel.CENTER);
+        label.setLocation((this.getWidth() / 2) - 50, 50);
         buttonLayout.add(label);
     }
     
