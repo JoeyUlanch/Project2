@@ -6,6 +6,9 @@
 package project2;
 
 // Commented out unused imports - Dak
+
+import java.util.*;
+
 //import java.util.ArrayList;
 
 public class Nim
@@ -13,6 +16,7 @@ public class Nim
   private String type;
   private int[][] board;
   private int turn = 0;
+  private boolean gameStateLocked = false;
   
   public Nim(int[][] board, String type) {
     this.board = board;
@@ -101,9 +105,38 @@ public class Nim
   }
   
   public void cpu(int moveX, int moveY) {
+    Timer timer = new Timer();
     this.type = "cpu";
-    this.processMovement(moveX, moveY);
-    if (!this.hasWon())
-        this.processCPU();
+    int firstMove = (int)(Math.random()*2);
+    if (firstMove == 1) {
+        this.processMovement(moveX, moveY);
+
+        if (!this.hasWon()) {
+            this.gameStateLocked = true;
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    processCPU();
+                    gameStateLocked = false;
+                }
+            }, 1000);
+        }
+    } else {
+        this.gameStateLocked = true;
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                processCPU();
+                gameStateLocked = false;
+            }
+        }, 1000);
+        
+        if (!this.hasWon())
+            this.processMovement(moveX, moveY);
+    }
+  }
+  
+  public boolean isLocked () {
+      return gameStateLocked;
   }
 }

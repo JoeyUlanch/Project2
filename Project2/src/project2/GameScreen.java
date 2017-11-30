@@ -106,12 +106,14 @@ public class GameScreen extends javax.swing.JFrame {
     }
     
   private void jButton2ActionPerformed(ActionEvent evt, int x, int y) {
-    if (Project2.nim1.getType().equals("pvp")) {
-      // move as if it is a PVP game.
-      Project2.nim1.pvp(x, y);
-    } else {
-      // move as if it is a computer game
-      Project2.nim1.cpu(x, y);
+    if (!Project2.nim1.isLocked()) {
+        if (Project2.nim1.getType().equals("pvp")) {
+          // move as if it is a PVP game.
+          Project2.nim1.pvp(x, y);
+        } else {
+          // move as if it is a computer game
+          Project2.nim1.cpu(x, y);
+        }
     }
   }
   
