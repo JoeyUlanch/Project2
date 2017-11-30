@@ -33,6 +33,10 @@ public class Nim
     return board;
   }
   
+  public void setTurn(int turn) {
+      this.turn = turn;
+  }
+  
   public String getTurn() {
       // According to convention, return-condition if
       // should not have an else statement
@@ -70,7 +74,7 @@ public class Nim
     Project2.game1.repaint();
   }
   
-  private void processCPU() {
+  protected void processCPU() {
     board = NimBot.cpuMove(board);
     if (turn == 0) {
         turn += 1;

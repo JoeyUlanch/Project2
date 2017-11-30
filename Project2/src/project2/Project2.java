@@ -50,12 +50,16 @@ public class Project2 {
     //Random rand = new Random();  
     setRandArray();
     nim1 = new Nim(myArray, type);
+    if (Math.random() > .5) {
+        nim1.setTurn(1);//
+        nim1.processCPU();
+    }
+    
     game1 = new GameScreen();
     game1.show();
     game1.setButtonArray();
-    /*if ((int)(Math.random()*2) == 1) {
-        nim1.cpu();
-    }*/
+    
+    
   }
   
 
